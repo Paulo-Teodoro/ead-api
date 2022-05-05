@@ -31,7 +31,7 @@ class Support extends Model
         return $this->belongsTo(Lesson::class);
     }
 
-    public function replies()
+    public function replySupport()
     {
         return $this->hasMany(ReplySupport::class);
     }
