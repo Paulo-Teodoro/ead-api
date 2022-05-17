@@ -13,4 +13,11 @@ trait UtilsTrait
 
         return $token;
     }
+
+    public function defaultHeaders()
+    {
+        return [
+            'Authorization' => "Bearer {$this->createUserToken()}"
+        ];
+    }
 }

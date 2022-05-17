@@ -41,11 +41,7 @@ class AuthTest extends TestCase
 
     public function test_logout()
     {
-        $token = $this->createUserToken();
-
-        $response = $this->postJson('/logout',[],[
-            'Authorization' => "Bearer {$token}"
-        ]);
+        $response = $this->postJson('/logout',[],$this->defaultHeaders());
 
         $response->assertStatus(200);
     }
@@ -59,11 +55,7 @@ class AuthTest extends TestCase
 
     public function test_get_user()
     {
-        $token = $this->createUserToken();
-
-        $response = $this->getJson('/user',[
-            'Authorization' => "Bearer {$token}"
-        ]);
+        $response = $this->getJson('/user',$this->defaultHeaders());
 
         $response->assertStatus(200);
     }
