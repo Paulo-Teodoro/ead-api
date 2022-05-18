@@ -6,9 +6,16 @@ use App\Models\User;
 
 trait UtilsTrait
 {
-    public function createUserToken()
+    public function createUser()
     {
         $user = User::factory()->create();
+
+        return $user;
+    }
+
+    public function createUserToken()
+    {
+        $user = $this->createUser();
         $token = $user->createToken("blah")->plainTextToken;
 
         return $token;
