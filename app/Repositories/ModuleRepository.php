@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Course;
 use App\Models\Module;
 
 class ModuleRepository
@@ -15,8 +16,8 @@ class ModuleRepository
 
     public function getModulesByCourseId(string $courseId)
     {
-        return $this->entity
-                    ->where('course_id', $courseId)
-                    ->get();
+        $course = Course::findOrFail($courseId);
+        
+        return $course->modules;
     }
 }
