@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Lesson;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,6 +21,7 @@ class SupportFactory extends Factory
         $statusOptions = ['P','A','C'];
         return [
             'user_id' => User::all()->random()->id,
+            'lesson_id' => Lesson::all()->random()->id,
             'status' => $statusOptions[array_rand($statusOptions)],
             'description' => $this->faker->sentence(20)
         ];
