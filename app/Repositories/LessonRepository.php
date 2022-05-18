@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Lesson;
+use App\Models\Module;
 use App\Repositories\Traits\RepositoryTrait;
 
 class LessonRepository
@@ -18,9 +19,8 @@ class LessonRepository
 
     public function getLessonsByModuleId(string $moduleId)
     {
-        return $this->entity
-                    ->where('module_id', $moduleId)
-                    ->get();
+        $module = Module::findOrFail($moduleId);
+        return $module->lessons;
     }
 
     public function getLesson(string $identify)
