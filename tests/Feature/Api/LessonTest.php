@@ -29,10 +29,7 @@ class LessonTest extends TestCase
 
     public function test_get_lessons_of_module()
     {
-        $course = Course::factory()->create();
-        $module = Module::factory()->create([
-            'course_id' => $course->id
-        ]);
+        $module = $this->createModule();
 
         $response = $this->getJson("/modules/{$module->id}/lessons",$this->defaultHeaders());
 
@@ -41,11 +38,8 @@ class LessonTest extends TestCase
 
     public function test_get_lessons_of_module_total()
     {
-        $course = Course::factory()->create();
-        $module = Module::factory()->create([
-            'course_id' => $course->id
-        ]);
-        Lesson::factory()->count(10)->create([
+        $module = $this->createModule();
+        $this->createLesson(10, [
             "module_id" => $module->id
         ]);
 
@@ -70,13 +64,7 @@ class LessonTest extends TestCase
 
     public function test_get_single_lesson()
     {
-        $course = Course::factory()->create();
-        $module = Module::factory()->create([
-            'course_id' => $course->id
-        ]);
-        $lesson = Lesson::factory()->create([
-                        "module_id" => $module->id
-                    ]);
+        $lesson = $this->createLesson();
         $response = $this->getJson("/lessons/{$lesson->id}",$this->defaultHeaders());
 
         $response->assertStatus(200);

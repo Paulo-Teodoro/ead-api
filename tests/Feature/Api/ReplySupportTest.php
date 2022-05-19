@@ -42,21 +42,8 @@ class ReplySupportTest extends TestCase
 
     public function test_create_reply_support_fail_description()
     {
-        $course = Course::factory()->create();
-        $module = Module::factory()->create([
-            'course_id' => $course->id
-        ]);
-        $lesson = Lesson::factory()->create([
-                        "module_id" => $module->id
-                    ]);
-
-        $support = Support::factory()->create([
-            'lesson_id' => $lesson->id,
-            'user_id' => $this->createUser()->id
-        ]);              
-
         $payload = [
-            'support_id' => $support->id,
+            'support_id' => $this->createSupport()->id,
             'description' => 'd'
         ];                      
 
@@ -66,22 +53,9 @@ class ReplySupportTest extends TestCase
     }
 
     public function test_create_reply_support()
-    {
-        $course = Course::factory()->create();
-        $module = Module::factory()->create([
-            'course_id' => $course->id
-        ]);
-        $lesson = Lesson::factory()->create([
-                        "module_id" => $module->id
-                    ]);
-
-        $support = Support::factory()->create([
-            'lesson_id' => $lesson->id,
-            'user_id' => $this->createUser()->id
-        ]);              
-
+    {       
         $payload = [
-            'support_id' => $support->id,
+            'support_id' => $this->createSupport()->id,
             'description' => 'description'
         ];                 
 

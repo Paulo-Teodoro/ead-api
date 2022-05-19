@@ -26,20 +26,14 @@ class SupportTest extends TestCase
         $user = $this->createUser();
         $token = $user->createToken("blah")->plainTextToken;
 
-        $course = Course::factory()->create();
-        $module = Module::factory()->create([
-            'course_id' => $course->id
-        ]);
-        $lesson = Lesson::factory()->create([
-                        "module_id" => $module->id
-                    ]);
+        $lesson = $this->createLesson();
 
-        Support::factory()->count(50)->create([
+        $this->createSupport(50, [
             'user_id' => $user->id,
             'lesson_id' => $lesson->id
         ]);
 
-        Support::factory()->count(50)->create([
+        $this->createSupport(50, [
             'user_id' => $this->createUser()->id,
             'lesson_id' => $lesson->id
         ]);
@@ -59,18 +53,7 @@ class SupportTest extends TestCase
 
     public function test_get_supports()
     {
-        $course = Course::factory()->create();
-        $module = Module::factory()->create([
-            'course_id' => $course->id
-        ]);
-        $lesson = Lesson::factory()->create([
-                        "module_id" => $module->id
-                    ]);
-
-        Support::factory()->count(50)->create([
-            'user_id' => $this->createUser()->id,
-            'lesson_id' => $lesson->id
-        ]);   
+        $this->createSupport(50);
         
         $response = $this->getJson('/supports', $this->defaultHeaders());
         
@@ -79,31 +62,20 @@ class SupportTest extends TestCase
     }
 
     public function test_get_supports_to_lesson()
-    {
-        $course = Course::factory()->create();
-        $module = Module::factory()->create([
-            'course_id' => $course->id
-        ]);
-        $lesson = Lesson::factory()->create([
-                        "module_id" => $module->id
-                    ]);
+    {       
+        $lesson = $this->createLesson();
 
-        $secondLesson = Lesson::factory()->create([
-            "module_id" => $module->id
-        ]);                    
-
-        Support::factory()->count(50)->create([
+        $this->createSupport(20, [
             'user_id' => $this->createUser()->id,
             'lesson_id' => $lesson->id
         ]);
-
-        Support::factory()->count(20)->create([
+        $this->createSupport(50, [
             'user_id' => $this->createUser()->id,
-            'lesson_id' => $secondLesson->id
-        ]);
-
+            'lesson_id' => $this->createLesson()->id
+        ]);     
+    
         $payload = [
-            "lesson" => $secondLesson->id
+            "lesson" => $lesson->id
         ];
 
         $response = $this->json('GET','/supports', $payload, $this->defaultHeaders());
@@ -113,26 +85,18 @@ class SupportTest extends TestCase
     }
 
     public function test_get_supports_to_status()
-    {
-        $course = Course::factory()->create();
-        $module = Module::factory()->create([
-            'course_id' => $course->id
-        ]);
-        $lesson = Lesson::factory()->create([
-                        "module_id" => $module->id
-                    ]);                 
-
-        Support::factory()->count(50)->create([
+    {       
+        $this->createSupport(50,[
             'user_id' => $this->createUser()->id,
-            'lesson_id' => $lesson->id,
+            'lesson_id' => $this->createLesson()->id,
             'status' => 'P'
-        ]);
-
-        Support::factory()->count(20)->create([
+        ]); 
+        
+        $this->createSupport(20,[
             'user_id' => $this->createUser()->id,
-            'lesson_id' => $lesson->id,
+            'lesson_id' => $this->createLesson()->id,
             'status' => 'A'
-        ]);
+        ]); 
 
         $payload = [
             "status" => 'A'
@@ -146,24 +110,16 @@ class SupportTest extends TestCase
 
     public function test_get_supports_to_description()
     {
-        $course = Course::factory()->create();
-        $module = Module::factory()->create([
-            'course_id' => $course->id
-        ]);
-        $lesson = Lesson::factory()->create([
-                        "module_id" => $module->id
-                    ]);                 
-
-        Support::factory()->count(50)->create([
+        $this->createSupport(50,[
             'user_id' => $this->createUser()->id,
-            'lesson_id' => $lesson->id
-        ]);
-
-        Support::factory()->count(20)->create([
+            'lesson_id' => $this->createLesson()->id
+        ]); 
+        
+        $this->createSupport(20,[
             'user_id' => $this->createUser()->id,
-            'lesson_id' => $lesson->id,
+            'lesson_id' => $this->createLesson()->id,
             'description' => 'randomWord'
-        ]);
+        ]);           
 
         $payload = [
             "filter" => 'randomWord'
@@ -204,16 +160,8 @@ class SupportTest extends TestCase
 
     public function test_create_support_fail_status()
     {
-        $course = Course::factory()->create();
-        $module = Module::factory()->create([
-            'course_id' => $course->id
-        ]);
-        $lesson = Lesson::factory()->create([
-                        "module_id" => $module->id
-                    ]);
-
         $payload = [
-            'lesson' => $lesson->id,
+            'lesson' => $this->createLesson()->id,
             'status' => 'B',
             'description' => 'description'
         ];                 
@@ -225,16 +173,8 @@ class SupportTest extends TestCase
 
     public function test_create_support_fail_description()
     {
-        $course = Course::factory()->create();
-        $module = Module::factory()->create([
-            'course_id' => $course->id
-        ]);
-        $lesson = Lesson::factory()->create([
-                        "module_id" => $module->id
-                    ]);
-
         $payload = [
-            'lesson' => $lesson->id,
+            'lesson' => $this->createLesson()->id,
             'status' => 'A',
             'description' => 'a'
         ];                 
@@ -246,16 +186,8 @@ class SupportTest extends TestCase
 
     public function test_create_support()
     {
-        $course = Course::factory()->create();
-        $module = Module::factory()->create([
-            'course_id' => $course->id
-        ]);
-        $lesson = Lesson::factory()->create([
-                        "module_id" => $module->id
-                    ]);
-
         $payload = [
-            'lesson' => $lesson->id,
+            'lesson' => $this->createLesson()->id,
             'status' => 'A',
             'description' => 'Correct Description'
         ];                 

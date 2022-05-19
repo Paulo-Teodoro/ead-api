@@ -27,7 +27,7 @@ class CourseTest extends TestCase
 
     public function test_get_all_courses_total()
     {
-        Course::factory()->count(10)->create();
+        $this->createCourse(10);
 
         $response = $this->getJson('/courses',$this->defaultHeaders());
 
@@ -51,7 +51,7 @@ class CourseTest extends TestCase
 
     public function test_get_single_course()
     {
-        $course = Course::factory()->create();
+        $course = $this->createCourse();
 
         $response = $this->getJson("/courses/{$course->id}", $this->defaultHeaders());
 

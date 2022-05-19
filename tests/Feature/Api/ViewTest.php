@@ -50,16 +50,8 @@ class ViewTest extends TestCase
 
     public function test_make_viewed_lesson()
     {
-        $course = Course::factory()->create();
-        $module = Module::factory()->create([
-            'course_id' => $course->id
-        ]);
-        $lesson = Lesson::factory()->create([
-            "module_id" => $module->id
-        ]);
-
         $payload = [
-            'lesson' => $lesson->id
+            'lesson' => $this->createLesson()->id
         ];
 
         $response = $this->postJson(

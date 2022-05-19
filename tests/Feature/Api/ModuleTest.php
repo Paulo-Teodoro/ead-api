@@ -28,7 +28,7 @@ class ModuleTest extends TestCase
 
     public function test_get_all_modules()
     {
-        $course = Course::factory()->create();
+        $course = $this->createCourse();
 
         $response = $this->getJson("/courses/{$course->id}/modules",$this->defaultHeaders());
 
@@ -37,8 +37,8 @@ class ModuleTest extends TestCase
 
     public function test_get_all_modules_total()
     {
-        $course = Course::factory()->create();
-        Module::factory()->count(10)->create([
+        $course = $this->createCourse();
+        $this->createModule(10, [
             "course_id" => $course->id
         ]);
 
