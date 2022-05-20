@@ -18,6 +18,9 @@ class ModuleRepository
     {
         $course = Course::findOrFail($courseId);
         
-        return $course->modules;
+        return $this->entity
+                    ->where('course_id', $courseId)
+                    ->with('lessons.views')
+                    ->get();
     }
 }

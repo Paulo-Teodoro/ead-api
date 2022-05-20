@@ -20,7 +20,11 @@ class LessonRepository
     public function getLessonsByModuleId(string $moduleId)
     {
         $module = Module::findOrFail($moduleId);
-        return $module->lessons;
+
+        return $this->entity
+                    ->where('module_id', $moduleId)
+                    ->with('views.supports.replies')
+                    ->get();
     }
 
     public function getLesson(string $identify)

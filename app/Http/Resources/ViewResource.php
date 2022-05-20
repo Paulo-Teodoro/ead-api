@@ -2,10 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Support;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ReplySupportResource extends JsonResource
+class ViewResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,10 +14,6 @@ class ReplySupportResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'description' => $this->description,
-            'support' => new SupportResource($this->whenLoaded('supports')),
-            'user' => new UserResource($this->whenLoaded('user'))
-        ];
+        return parent::toArray($request);
     }
 }

@@ -40,6 +40,7 @@ class SupportRepository
                             $query->where('user_id', $user->id);
                         }
                     })
+                    ->with('replySupport', 'user')
                     ->orderBy('updated_at')
                     ->get();
     }
