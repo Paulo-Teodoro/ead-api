@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Support;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ReplySupportResource extends JsonResource
@@ -17,8 +18,9 @@ class ReplySupportResource extends JsonResource
     {
         return [
             'description' => $this->description,
+            'dt_updated' => Carbon::make($this->updated_at)->format('Y-m-d H:i:s'),
             'support' => new SupportResource($this->whenLoaded('supports')),
-            'user' => new UserResource($this->whenLoaded('user'))
+            'user' => new UserResource($this->user)
         ];
     }
 }

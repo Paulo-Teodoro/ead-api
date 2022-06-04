@@ -28,7 +28,7 @@ class CourseSeeder extends Seeder
                                         ->has(
                                             Support::factory()
                                                     ->has(
-                                                        ReplySupport::factory()->count(1)
+                                                        ReplySupport::factory()->count(4)
                                                     )
                                             ->count(3)
                                         )
