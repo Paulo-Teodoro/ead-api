@@ -42,7 +42,7 @@ class SupportRepository
                     })
                     ->with('replySupport', 'user')
                     ->orderBy('updated_at')
-                    ->get();
+                    ->paginate(5);
     }
 
     public function getUserSupports(array $filters = [])
